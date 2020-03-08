@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.menu.MenuDao" >
+
+    <resultMap id="MenuResultMap" type="E:\Java项目\BlogAdmin\admin-application\src\main\javaMenu" >
+        <id column='menu_id'  property='id'/>
+ 		<result  column='menu_number'  property='number'/>
+ 		<result  column='menu_nodename'  property='nodeName'/>
+ 		<result  column='menu_nodepath'  property='nodePath'/>
+ 		<result  column='menu_rootnode'  property='rootNode'/>
+ 		<result  column='menu_isrootnode'  property='isRootNode'/>
+ 		<result  column='menu_isleafnode'  property='isLeafNode'/>
+ 		<result  column='menu_parentnode'  property='parentNode'/>
+ 		<result  column='menu_parentnodenumber'  property='parentNodeNumber'/>
+ 		<result  column='menu_createtime'  property='
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        menu_id,menu_number,menu_nodename,menu_nodepath,menu_rootnode,menu_isrootnode,menu_isleafnode,menu_parentnode,menu_parentnodenumber,menu_createtime
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+        </where>
+    </sql>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="E:\Java项目\BlogAdmin\admin-application\src\main\javaMenu">
+       insert into SYS_Menu(
+        menu_id,
+		menu_number,
+		menu_nodename,
+		menu_nodepath,
+		menu_rootnode,
+		menu_isrootnode,
+		menu_isleafnode,
+		menu_parentnode,
+		menu_parentnodenumber,
+		menu_createtime )
+		values
+ 		(
+ 		#{menu_id,jdbcType=int},
+		#{menu_number,jdbcType=varchar},
+		#{menu_nodename,jdbcType=varchar},
+		#{menu_nodepath,jdbcType=varchar},
+		#{menu_rootnode,jdbcType=varchar},
+		#{menu_isrootnode,jdbcType=bit},
+		#{menu_isleafnode,jdbcType=bit},
+		#{menu_parentnode,jdbcType=varchar},
+		#{menu_parentnodenumber,jdbcType=varchar},
+		#{menu_createtime,jdbcType=datetime} )
+    </insert>
+    <update id="update" parameterType="com.myschool.student.entity.StudentInfo">
+        update  SYS_Menuset
+ 			menu_id = #{menu_id,jdbcType=int},
+			menu_number = #{menu_number,jdbcType=varchar},
+			menu_nodename = #{menu_nodename,jdbcType=varchar},
+			menu_nodepath = #{menu_nodepath,jdbcType=varchar},
+			menu_rootnode = #{menu_rootnode,jdbcType=varchar},
+			menu_isrootnode = #{menu_isrootnode,jdbcType=bit},
+			menu_isleafnode = #{menu_isleafnode,jdbcType=bit},
+			menu_parentnode = #{menu_parentnode,jdbcType=varchar},
+			menu_parentnodenumber = #{menu_parentnodenumber,jdbcType=varchar},
+			menu_createtime = #{menu_createtime,jdbcType=datetime} 
+			where menu_id = #{id,jdbcType=int}
+    </update>
+    <update id="selectById" parameterType="com.myschool.student.entity.StudentInfo">
+         select <include refid='Base_Column_List'/> from SYS_Menu where menu_id = #{menu_id,jdbcType=int}
+    </update>
+    <update id="selectByPage" parameterType="com.myschool.student.entity.StudentInfo">
+         select <include refid='Base_Column_List'/> from SYS_Menu where menu_id = #{menu_id,jdbcType=int}
+    </update>
+    <update id="deleteById" parameterType="com.myschool.student.entity.StudentInfo">
+         delete * from SYS_Menu where menu_id = #{menu_id,jdbcType=int}
+    </update>
+</mapper>

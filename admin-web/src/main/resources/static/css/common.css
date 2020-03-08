@@ -1,0 +1,33 @@
+body{
+    overflow-x:hidden;
+}
+.text-center{
+    text-align: center;
+}
+.container{
+    background:white;
+    border-radius: 2px;
+    margin: 12px;
+    padding: 10px;
+}
+.container-header{
+    background: white;
+    width: 2000px;
+    height: 35px;
+    line-height: 31px;
+    padding-left: 10px;
+    font-size: medium;
+    font-weight: 500
+}
+.search{
+
+}
+.display-flex{
+    display:flex;
+}
+.lable-line {
+    padding: 4px 0px;
+    font-size: 14px;
+    line-height: 31px;
+    border-bottom: 1px solid #d5d8db;
+}

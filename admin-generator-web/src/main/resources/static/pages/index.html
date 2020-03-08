@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mybatis生成工具</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div id="app">
+<div class="header">
+        <table style="width: 100%">
+            <tr>
+            <td class="lbl">数据库：</td>
+            <td><input type="text" v-model="dataBaseName" class="input"></td>
+            <td class="lbl">数据表：</td>
+            <td style="padding: 5px">
+                <select @change="selectColumn(tableName)" class="select"  v-model="tableName">
+                    <option value="99" selected>请选择</option>
+                    <option v-for="item in tableNames" :value="item">
+                        {{item}}
+                    </option>
+                </select>
+            </td>
+                <td class="lbl">mapper根路径：</td>
+                <td><input type="text" v-model="mapperPath" class="input" placeholder="C:/**/**/src/main/resources"></td>
+
+            </tr>
+            <tr>
+                <td class="lbl">domain包名：</td>
+                <td><input type="text" v-model="domainPackageName" class="input"></td>
+                <td class="lbl">domain根路径：</td>
+                <td><input type="text" v-model="domainPath" class="input" placeholder="C:/**/**/src/main/java"></td>
+                <td class="lbl">dao包名：</td>
+                <td><input type="text" v-model="daoPackageName" class="input"></td>
+                <td class="lbl">dao根路径：</td>
+                <td><input type="text" v-model="daoPath" class="input" placeholder="C:/**/**/src/main/java"></td>
+            </tr>
+        </table>
+    <div class="btn-center">
+        <button type="button" class="layui-btn layui-btn-sm" @click="search">搜索</button>
+        <button type="button" class="layui-btn layui-btn-sm" @click="create">生成代码</button></td>
+    </div>
+</div>
+<div class="content">
+    <div class="table-list">
+        <table class="layui-table text-center">
+            <thead>
+            <tr>
+                <th>属性名</th>
+                <th>列名</th>
+                <th>类型</th>
+                <th>长度</th>
+                <th>是否主键</th>
+                <th>是否自增</th>
+                <th>是否可空</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in dataList">
+                <td><input type="text" name="" v-model="item.propertyName" class="table-input"></td>
+                <td><input type="text" name="" v-model="item.fieldName" class="table-input"></td>
+                <td>
+                    <select class="select"  v-model="item.fieldType">
+                        <option value="999" selected>请选择</option>
+                        <option v-for="(item, index) in Object.keys(dataTypes)" :value="item">
+                            {{dataTypes[item]}}
+                        </option>
+                    </select>
+                </td>
+                <td> <input type="text" name="" v-model="item.length" class="table-input"></td>
+                <td>
+                    <input type="checkbox"  v-model="item.primarkey">
+                </td>
+                <td>
+                    <input type="checkbox"  v-model="item.autoIncrement" >
+                </td>
+                <td>
+                    <input type="checkbox" v-model="item.null" >
+                </td>
+                <td><input type="text"  v-model="item.content" class="table-input"></td>
+                <td>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs">新增</a>
+                    <a class="layui-btn layui-btn-xs">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<script src="../js/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+<script src="../js/vue/vue.js" type="text/javascript"></script>
+<script src="../layui/layui.js" type="text/javascript"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            tableName:'99',
+            dataBaseName:'Blog',
+            domainPackageName:"",
+            domainPath:'',
+            daoPackageName:'',
+            daoPath:'',
+            mapperPath:'',
+            tableNames:[],
+            dataList: [],
+            dataTypes:[]
+        },
+        mounted:function(){
+            layui.use(['layer'],function(){
+                var  layer = layui.layer
+            })
+        },
+        methods:{
+            bindSelect:function()
+            {
+                var that=this;
+                var index = layer.load(2);
+                $.ajax({
+                    type:'post',
+                    dataType:'json',
+                    url:'/api/generator/tableNames/'+that.dataBaseName,
+                    success:function (res) {
+                        that.tableNames=res.data;
+                        layer.close(index);
+                    },
+                    error:function (res) {
+                        layer.close(index);
+                    }
+                });
+            },
+            bindTable:function()
+            {
+
+            },
+            search:function(){
+               this.bindSelect();
+            },
+            selectColumn:function (tableName) {
+                var index = layer.load(2);
+                var that=this;
+                $.ajax({
+                    type:'post',
+                    dataType:'json',
+                    url:'/api/generator/columns/'+tableName,
+                    success:function (res) {
+                        that.dataList=res.dataList;
+                        that.dataTypes=res.enum;
+                        layer.close(index);
+                    },
+                    error:function (res) {
+                        layer.close(index);
+                    }
+                });
+            },
+            create:function () {
+                var that=this;
+                var index = layer.load(2);
+                $.ajax({
+                    type:'post',
+                    dataType:'json',
+                    url:'/api/generator/create',
+
+                    data:{
+                        'tableColumns':JSON.stringify(that.dataList),
+                        'tableName':that.tableName,
+                        'domainPackageName':that.domainPackageName,
+                        'domainPath':that.domainPath,
+                        'daoPackageName':that.daoPackageName,
+                        'daoPath':that.daoPath,
+                        'mapperPath':that.mapperPath
+                    },
+                    success:function (res) {
+                        that.tableNames=res.data;
+                        layer.close(index);
+                    },
+                    error:function (res) {
+                        layer.close(index);
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

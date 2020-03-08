@@ -1,0 +1,10 @@
+require.config({
+    baseUrl:'../../',
+    paths:{
+        'jquery':'../../../js/jquery/jquery-1.12.4.min',
+        'vue':'../../../js/vue/vue',
+        'layer':'../../../layui/lay/modules/layer'
+    },
+})
+define('global',[
+])

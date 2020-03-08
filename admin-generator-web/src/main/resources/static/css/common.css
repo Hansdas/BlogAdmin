@@ -1,0 +1,35 @@
+.header table tr td{
+    border: 1px solid #d5d8db;
+}
+.lbl{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.input{
+    margin: 5px;
+    border: 1px solid #d5d8db;
+    background-color: #fff;
+    border-radius: 2px;
+    display: block;
+    padding-left: 10px;
+    height: 26px;
+}
+.table-input{
+    border: 1px solid #d5d8db;
+    background-color: #fff;
+    border-radius: 2px;
+    display: block;
+    padding-left: 10px;
+    height: 26px;
+}
+.table-list td{
+    padding:5px 15px !important;
+}
+.btn-center{
+    margin-top: 9px;
+    text-align: center;
+}
+.select{
+    border: 1px solid #d5d8db;
+    height: 29px;
+}

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="${daoPackage}.${className}Dao" >
 
-    <resultMap id="${className}ResultMap" type="${domainPackage}${className}" >
+    <resultMap id="${className}ResultMap" type="${domainPackage}.${className}" >
         ${column}
     </resultMap>
 
@@ -13,19 +13,19 @@
         <where> 1=1
         </where>
     </sql>
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="${domainPackage}${className}">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="${domainPackage}.${className}">
        ${insert}
     </insert>
-    <update id="update" parameterType="com.myschool.student.entity.StudentInfo">
+    <update id="update" parameterType="${domainPackage}.${className}">
         ${update}
     </update>
-    <update id="selectById" parameterType="com.myschool.student.entity.StudentInfo">
+    <update id="selectById" parameterType="int" resultMap="${className}ResultMap">
         ${selectById}
     </update>
-    <update id="selectByPage" parameterType="com.myschool.student.entity.StudentInfo">
-        ${selectById}
+    <update id="selectByPage" parameterType="map" resultMap="${className}ResultMap">
+        ${selectByPage}
     </update>
-    <update id="deleteById" parameterType="com.myschool.student.entity.StudentInfo">
+    <update id="deleteById" parameterType="int">
         ${deleteById}
     </update>
 </mapper>

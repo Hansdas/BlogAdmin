@@ -6,7 +6,6 @@ import com.blog.cms.dao.system.MenuMapper;
 import com.blog.cms.domain.menu.Menu;
 import com.blog.cms.domain.menu.MenuDto;
 import com.blog.cms.service.system.IMenuService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
@@ -85,7 +84,7 @@ public class MenuService implements IMenuService {
         List<MenuDto> menuDtos = new ArrayList<>();
         for (Menu item : parents) {
             MenuDto menuDto=new MenuDto();
-            if (item.getIsLeafNode()) {
+            if (item.getIsRootNode()) {
                  menuDto = getMenuDto(item);
                 menuDtos.add(menuDto);
             } else {

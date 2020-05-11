@@ -8,6 +8,6 @@ public class IndexController {
     @RequestMapping("/")
     public String index()
     {
-        return "redirect:/pages/workflow.html";
+        return "redirect:/pages/index.html";
     }
 }

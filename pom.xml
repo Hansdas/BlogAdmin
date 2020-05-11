@@ -19,7 +19,6 @@
         <module>admin-common</module>
         <module>admin-application</module>
         <module>admin-generator-web</module>
-        <module>admin-progress-engine</module>
     </modules>
     <dependencies>
         <dependency>

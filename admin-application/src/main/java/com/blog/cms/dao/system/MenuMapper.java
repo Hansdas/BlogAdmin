@@ -1,8 +1,9 @@
 package com.blog.cms.dao.system;
 
-import com.blog.cms.domain.menu.Menu;
 import java.util.List;
 import java.util.Map;
+
+import com.blog.cms.domain.system.menu.Menu;
 import org.apache.ibatis.annotations.Param;
 
 public interface MenuMapper {

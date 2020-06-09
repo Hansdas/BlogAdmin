@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.blog.cms.dao.system.MenuMapper">
-    <resultMap id="MenuResultMap" type="com.blog.cms.domain.menu.Menu">
+    <resultMap id="MenuResultMap" type="com.blog.cms.domain.system.menu.Menu">
         <id column='menu_id' property='id'/>
+        <result column='menu_order' property='order'/>
         <result column='menu_number' property='number'/>
         <result column='menu_nodename' property='nodeName'/>
         <result column='menu_nodepath' property='nodePath'/>
@@ -15,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        menu_id,menu_number,menu_nodename,menu_nodepath,menu_rootnode,menu_isrootnode,menu_isleafnode,menu_parentnode,menu_parentnodenumber,menu_createtime
+        menu_id,menu_order,menu_number,menu_nodename,menu_nodepath,menu_rootnode,menu_isrootnode,menu_isleafnode,menu_parentnode,menu_parentnodenumber,menu_createtime
     </sql>
     <sql id="Where">
         <where>1=1
@@ -43,10 +44,20 @@
             <if test="numberIn !=null and numberIn.size()==0 ">
                 and 1=0
             </if>
+            <if test="parentNumberIn !=null and parentNumberIn.size()>0 ">
+                and menu_parentnodenumber in
+                <foreach collection="parentNumberIn" item="number" index="index" open="(" close=")" separator=",">
+                    #{number}
+                </foreach>
+            </if>
+            <if test="parentNumberIn !=null and parentNumberIn.size()==0 ">
+                and 1=0
+            </if>
         </where>
     </sql>
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.menu.Menu">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.system.menu.Menu">
        insert into SYS_Menu(
+        menu_order,
 		menu_number,
 		menu_nodename,
 		menu_nodepath,
@@ -58,6 +69,7 @@
 		menu_createtime )
 		values
  		(
+ 		#{order,jdbcType=INTEGER},
 		#{number,jdbcType=VARCHAR},
 		#{nodeName,jdbcType=VARCHAR},
 		#{nodePath,jdbcType=VARCHAR},
@@ -68,8 +80,9 @@
 		#{parentNodeNumber,jdbcType=VARCHAR},
 		now())
     </insert>
-    <update id="update" parameterType="com.blog.cms.domain.menu.Menu">
+    <update id="update" parameterType="com.blog.cms.domain.system.menu.Menu">
         update  SYS_Menuset
+            menu_number = #{order,jdbcType=INTEGER},
 			menu_number = #{number,jdbcType=VARCHAR},
 			menu_nodename = #{nodeName,jdbcType=VARCHAR},
 			menu_nodepath = #{nodePath,jdbcType=VARCHAR},
@@ -83,6 +96,7 @@
     </update>
     <insert id="batchInsert" parameterType="java.util.List">
         insert into SYS_Menu(
+        menu_order,
         menu_number,
         menu_nodename,
         menu_nodepath,
@@ -95,6 +109,7 @@
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (
+            #{item.order,jdbcType=INTEGER},
             #{item.number,jdbcType=VARCHAR},
             #{item.nodeName,jdbcType=VARCHAR},
             #{item.nodePath,jdbcType=VARCHAR},

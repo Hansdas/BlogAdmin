@@ -18,7 +18,6 @@
         <module>admin-web</module>
         <module>admin-common</module>
         <module>admin-application</module>
-        <module>admin-generator-web</module>
     </modules>
     <dependencies>
         <dependency>

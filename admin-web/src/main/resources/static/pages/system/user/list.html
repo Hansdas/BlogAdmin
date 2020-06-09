@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>菜单列表</title>
+        <title>用户列表</title>
         <link href="../../../layui/css/layui.css" rel="stylesheet">
         <link href="../../../css/common.css" rel="stylesheet">
         <link href="../../../css/main.css" rel="stylesheet">
@@ -15,12 +15,17 @@
             <div class="search">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">菜单名称</label>
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" v-model="user.Account"
+                               class="layui-input">
+                    </div>
+                        <label class="layui-form-label">昵称</label>
                         <div class="layui-input-inline">
-                            <input type="text" v-model="nodeName"
+                            <input type="text" v-model="user.Name"
                                    class="layui-input">
                         </div>
-                    </div>
+                </div>
                     <div class="layui-inline">
                         <div class="layui-input-inline">
                             <button type="button" @click="search" class="layui-btn layui-btn-primary" title="查询">
@@ -36,42 +41,42 @@
             <div style="overflow-y: auto">
                 <table class="layui-table" lay-size="sm">
                     <thead>
-                        <tr>
-                            <th>菜单编号</th>
-                            <th>菜单名称</th>
-                            <th>菜单地址</th>
-                            <th>根节点</th>
-                            <th>是否根节点</th>
-                            <th>是否叶子节点</th>
-                            <th>上级菜单</th>
-                            <th>上级菜单编号</th>
-                            <th>创建时间</th>
-                            <th>操作</th>
-                        </tr>
+                    <tr>
+                        <th>菜单编号</th>
+                        <th>菜单名称</th>
+                        <th>菜单地址</th>
+                        <th>根节点</th>
+                        <th>是否根节点</th>
+                        <th>是否叶子节点</th>
+                        <th>上级菜单</th>
+                        <th>上级菜单编号</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td v-if="dataList==null" colspan="11">数据加载中...</td>
-                            <td v-else-if="dataList && dataList.length == 0" colspan="11">暂无数据</td>
-                        </tr>
-                        <tr v-for="(item, index) in dataList">
-                            <td>{{item.number}}</td>
-                            <td>{{item.nodeName}}</td>
-                            <td>{{item.nodePath}}</td>
-                            <td>{{item.rootNode}}</td>
-                            <td v-if="item.isRootNode!=true">否</td>
-                            <td v-else>是</td>
-                            <td v-if="item.isLeafNode!=true">否</td>
-                            <td v-else>是</td>
-                            <td>{{item.parentNode}}</td>
-                            <td>{{item.parentNodeNumber}}</td>
-                            <td>{{item.createTime}}</td>
-                            <td>
-                                <a class="layui-btn layui-btn-primary layui-btn-xs">查看</a>
-                                <a class="layui-btn layui-btn-xs">编辑</a>
-                                <a class="layui-btn layui-btn-danger layui-btn-xs" @click="deleteById(item.id)">删除</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td v-if="dataList==null" colspan="11">数据加载中...</td>
+                        <td v-else-if="dataList && dataList.length == 0" colspan="11">暂无数据</td>
+                    </tr>
+                    <tr v-for="(item, index) in dataList">
+                        <td>{{item.number}}</td>
+                        <td>{{item.nodeName}}</td>
+                        <td>{{item.nodePath}}</td>
+                        <td>{{item.rootNode}}</td>
+                        <td v-if="item.isRootNode!=true">否</td>
+                        <td v-else>是</td>
+                        <td v-if="item.isLeafNode!=true">否</td>
+                        <td v-else>是</td>
+                        <td>{{item.parentNode}}</td>
+                        <td>{{item.parentNodeNumber}}</td>
+                        <td>{{item.createTime}}</td>
+                        <td>
+                            <a class="layui-btn layui-btn-primary layui-btn-xs">查看</a>
+                            <a class="layui-btn layui-btn-xs">编辑</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" @click="deleteById(item.id)">删除</a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -95,7 +100,7 @@
                         layui.use(['layer'], function(){
                             var layer = layui.layer
                             //var loading = layer.load(3);
-                            that.defaultList(1, 10,true);
+                            //that.defaultList(1, 10,true);
                             //that.usePage();
                         });
                         //vueDom.totalCount=total;

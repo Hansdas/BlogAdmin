@@ -1,4 +1,6 @@
-
+function menuOpen(url) {
+    document.getElementById('iframeSrc').src=url;
+}
 var app= new Vue({
     el:'#app',
     data:{

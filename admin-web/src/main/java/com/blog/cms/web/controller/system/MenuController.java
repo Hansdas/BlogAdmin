@@ -5,8 +5,8 @@ import com.blog.cms.common.JsonResult;
 import com.blog.cms.common.ListUtils;
 import com.blog.cms.common.exception.ServiceException;
 import com.blog.cms.dao.system.MenuMapper;
-import com.blog.cms.domain.menu.Menu;
-import com.blog.cms.domain.menu.MenuDto;
+import com.blog.cms.domain.system.menu.Menu;
+import com.blog.cms.domain.system.menu.MenuDto;
 import com.blog.cms.service.system.imp.MenuService;
 import com.blog.cms.web.utils.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +78,8 @@ public class MenuController {
         String parentNumber = request.getParameter("parentNumber");
         String json2=request.getParameter("deleteNumbers");
         List<Menu> menus= JSON.parseArray(json,Menu.class) ;
-        menuService.Save(menus,parentNumber);
+        List<String> deleteNumbers=JSON.parseArray(json2,String.class);
+        menuService.Save(menus,parentNumber,deleteNumbers);
         return new JsonResult("0", "保存成功");
     }
 

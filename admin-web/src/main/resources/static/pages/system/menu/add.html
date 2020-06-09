@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>菜单编号</th>
+                            <th>排序索引</th>
                             <th>菜单名称</th>
                             <th>菜单地址</th>
                             <th>根节点</th>
@@ -27,17 +28,20 @@
                     </thead>
                     <tbody>
                         <tr v-if="dataList && dataList.length == 0">
-                            <td colspan="4">暂无数据</td>
+                            <td colspan="5">暂无数据</td>
                         </tr>
                         <tr v-for="(item, index) in dataList">
-                            <td>{{item.number}}</td>
+                            <td v-if="item.number==''">系统自动生成</td>
+                            <td v-else>{{item.number}}</td>
+                            <td>{{item.order}}</td>
                             <td><input type="text" name="" v-model="item.nodeName" class="table-input"></td>
                             <td><input type="text" name="" v-model="item.nodePath" class="table-input"></td>
                             <td>
                                 <input type="checkbox" v-model="item.isRootNode">
                             </td>
                             <td>
-                                <a class="layui-btn layui-btn-xs" @click="add(index)">下方新增</a>
+                                <a class="layui-btn layui-btn-xs" @click="add(item.order)">下方新增</a>
+                                <a v-if="index<(dataList.length-1)" class="layui-btn layui-btn-xs" @click="moveDown(index)">下移</a>
                                 <a class="layui-btn layui-btn-danger layui-btn-xs" @click="remove(item.number,index)">删除</a>
                             </td>
                         </tr>
@@ -56,6 +60,7 @@
                     data: {
                         dataList: [],
                         parentNumber:'',
+                        deleteNumbers:[]
                     },
                     mounted: function () {
                         var vueDom = this;
@@ -117,6 +122,7 @@
                                 url: '/api/menu/add',
                                 data: {
                                     'parentNumber':that.parentNumber,
+                                    'deleteNumbers':JSON.stringify(that.deleteNumbers),
                                     'menus':JSON.stringify(that.dataList)
                                 },
                                 success: function (res) {
@@ -141,6 +147,9 @@
                                 },
                                 success: function (res) {
                                     that.dataList=res.data;
+                                    for (var  i=0;i<that.dataList.length;i++){
+                                        that.dataList[i].order=i+1;
+                                    }
                                     layer.close(loading);
                                 },
                                 error: function (res) {
@@ -148,18 +157,35 @@
                                 }
                             });
                         },
-                        add:function (index) {
+                        add:function (order) {
                             var that=this;
                             var newData={
                                 number:'',
                                 nodeName:'',
-                                nodePath:''
+                                nodePath:'',
+                                order:order+1
                             };
+                            var index=order-1;
                             that.dataList.splice(index+1,0,newData)
+                            for (var  i=0;i<that.dataList.length;i++){
+                                that.dataList[i].order=i+1;
+                            }
                         },
                         remove:function (number,index) {
                             var that=this;
-                            that.dataList.splice(index,1)
+                            that.deleteNumbers.push(number);
+                            that.dataList.splice(index,1);
+                            for (var  i=0;i<that.dataList.length;i++){
+                                that.dataList[i].order=i+1;
+                            }
+                        },
+                        moveDown:function (index) {
+                            var that=this;
+                            var newData=that.dataList[index];
+                            newData.order=index+2;//排序从1开始，所以为索引+1+1
+                            that.dataList.splice(index,1);
+                            that.dataList[index].order=index+1;
+                            that.dataList.splice(index+1,0,newData);
                         }
                     }
                 })

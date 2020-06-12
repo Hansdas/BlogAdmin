@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>邮箱配置</title>
+        <link href="../../layui/css/layui.css" rel="stylesheet">
+        <link href="../../css/common.css" rel="stylesheet">
+        <link href="../../css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container-header">
+            邮箱配置
+        </div>
+        <div class="container" id="app">
+            <table class="layui-form table-form" style="width: 100%">
+                <tr>
+                    <td class="lbl">SMTP服务器：</td>
+                    <td><input type="text" v-model="mailConfig.server" class="input"></td>
+                    <td class="lbl">端口：</td>
+                    <td><input type="text" v-model="mailConfig.port" class="input"></td>
+                </tr>
+                <tr>
+                    <td class="lbl">服务器账号：</td>
+                    <td><input type="text" v-model="mailConfig.account" class="input"></td>
+                    <td class="lbl">服务器密码：</td>
+                    <td><input type="text" v-model="mailConfig.password" class="input"></td>
+                </tr>
+                <tr>
+                    <td class="lbl">发送者邮箱：</td>
+                    <td><input type="text" v-model="mailConfig.email" class="input"></td>
+                    <td class="lbl">发送者名称：</td>
+                    <td><input type="text" v-model="mailConfig.emailName" class="input"></td>
+                </tr>
+                <tr>
+                    <td colspan="8" style="text-align: center">
+                        <button type="button" class="layui-btn layui-btn-sm" @click="save">保存</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script src="/js/require.js-2.3.6/require.min.js" type="text/javascript"></script>
+        <script src="/layui/layui.js" type="text/javascript"></script>
+        <script src="../../../js/common/require-config.js" type="text/javascript"></script>
+        <script>
+            require(['jquery', 'vue'], function ($, Vue) {
+                new Vue({
+                    el:"#app",
+                    data:{
+                        mailConfig:{}
+                    },
+                    mounted:function(){
+                        layui.use(['layer'],function(){
+                            var  layer = layui.layer
+                        })
+                    },
+                    methods:{
+                        save:function () {
+                            var that=this;
+                            var index = layer.load(2);
+                            $.ajax({
+                                type:'post',
+                                dataType:'json',
+                                url:'/api/config/mail/add',
+                                contentType:'application/json;charset=utf-8',
+                                data:JSON.stringify(that.mailConfig),
+                                success:function (res) {
+                                    that.tableNames=res.data;
+                                    layer.close(index);
+                                },
+                            });
+                        }
+                    }
+                });
+            })
+        </script>
+    </body>
+</html>

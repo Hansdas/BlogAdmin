@@ -15,6 +15,10 @@ public class JsonResult {
     public Object getData() {
         return data;
     }
+    public JsonResult(String code)
+    {
+        this.code=code;
+    }
     public JsonResult(String code,String message)
     {
         this.code=code;

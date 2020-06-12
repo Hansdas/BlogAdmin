@@ -1,17 +1,21 @@
 package com.blog.cms.dao.system;
 
 import com.blog.cms.domain.system.config.Config;
+
 import java.util.List;
+import java.util.Map;
 
 public interface ConfigMapper {
 
-int insert(Config Config);
+    int insert(Config Config);
 
-int update(Config Config);
+    int update(Config Config);
 
-Config selectById(int id);
+    int selectCount(Map<String, Object> condition);
 
-List<Config> selectByPage(int currentPage,int pageSize);
+    Config selectById(int id);
 
-void Delete(int id);
+    List<Config> selectByPage(int currentPage, int pageSize);
+
+    void Delete(int id);
 }

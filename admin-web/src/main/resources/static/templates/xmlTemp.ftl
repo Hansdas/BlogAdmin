@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="${daoPackage}.${className}Dao" >
+<mapper namespace="${daoPackage}.${className}Mapper" >
 
     <resultMap id="${className}ResultMap" type="${domainPackage}.${className}" >
         ${column}
@@ -16,9 +16,9 @@
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="${domainPackage}.${className}">
         ${insert}
     </insert>
-    <select id="update" parameterType="${domainPackage}.${className}">
+    <update id="update" parameterType="${domainPackage}.${className}">
         ${update}
-    </select>
+    </update>
     <select id="selectById" parameterType="int" resultMap="${className}ResultMap">
         ${selectById}
     </select>

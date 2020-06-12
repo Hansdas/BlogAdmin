@@ -96,7 +96,7 @@ public class CreateMapper {
     }
 
     private static void  createUpdate( Map<String,Object> map,List<TableColumn> tableColumns,String tableName){
-        StringBuilder sb=new StringBuilder().append("update  "+tableName +"set\r\n ");
+        StringBuilder sb=new StringBuilder().append("update  "+tableName +" set\r\n ");
         for (int i=0;i<tableColumns.size();i++){
             TableColumn tableColumn=tableColumns.get(i);
             sb.append("\t\t\t"+tableColumn.getFieldName());

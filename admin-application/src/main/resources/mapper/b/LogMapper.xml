@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.b.system.LogMapper" >
+    <resultMap id="LogResultMap" type="com.blog.cms.domain.system.config.Log" >
+        <result column='Date'  property='Date'/>
+ 		<result  column='Request'  property='Request'/>
+ 		<result  column='Level'  property='Level'/>
+ 		<result  column='Logger'  property='Logger'/>
+ 		<result  column='Message'  property='Message'/>
+ 		<result  column='Exception'  property='Exception'/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        Date,Request,Level,Logger,Message,Exception
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+        </where>
+    </sql>
+    <select id="selectById" parameterType="int" resultMap="LogResultMap">
+         select <include refid='Base_Column_List'/> from SYS_Log where Date = #{Date,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPage" parameterType="map" resultMap="LogResultMap">
+         select <include refid='Base_Column_List'/> from SYS_Log limit #{currentPage},#{pageSize}
+    </select>
+    <delete id="deleteById" parameterType="map">
+         delete * from SYS_Log where Date = #{Date,jdbcType=INTEGER}
+    </delete>
+</mapper>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日志列表</title>
+</head>
+<body>
+<div class="container-header">
+    日志列表
+</div>
+<div class="container" id="app">
+    <div class="search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">日志级别</label>
+                <div class="layui-input-inline">
+                    <input type="text" v-model="nodeName"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <button type="button" @click="search" class="layui-btn layui-btn-primary" title="查询">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-primary" title="导出">
+                        <i class="layui-icon layui-icon-export"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="overflow-y: auto">
+        <table class="layui-table" lay-size="sm">
+            <thead>
+            <tr>
+                <th>日志级别</th>
+                <th>日志对象</th>
+                <th>账号</th>
+                <th>请求IP</th>
+                <th>错误信息</th>
+                <th>错误详细信息</th>
+                <th>生成时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td v-if="dataList==null" colspan="11">数据加载中...</td>
+                <td v-else-if="dataList && dataList.length == 0" colspan="11">暂无数据</td>
+            </tr>
+            <tr v-for="(item, index) in dataList">
+                <td>{{item.level}}</td>
+                <td>{{item.logger}}</td>
+                <td>{{item.account}}</td>
+                <td>{{item.requestIP}}</td>
+                <td>{{item.message}}</td>
+                <td>{{item.exception}}</td>
+                <td>{{item.createTime}}</td>
+                <td>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs">查看</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" @click="deleteById(item.id)">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pager"></div>
+</div>
+<script src="/js/require.js-2.3.6/require.min.js" type="text/javascript"></script>
+<script src="/layui/layui.js" type="text/javascript"></script>
+<script src="../../../js/common/require-config.js" type="text/javascript"></script>
+<script>
+    require(['jquery', 'vue'], function ($, Vue) {
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                dataList: null,
+                totalCount: '',
+                nodeName: '',
+                pageSize: ''
+            },
+            mounted: function () {
+                var that=this;
+                layui.use(['layer'], function(){
+                    var layer = layui.layer
+                    //var loading = layer.load(3);
+                    that.defaultList(1, 10,true);
+                    //that.usePage();
+                });
+                //vueDom.totalCount=total;
+            },
+            methods: {
+                defaultList: function (currentPage, pageSize,initPage) {
+                    var that = this;
+                    var loading = layer.load(3);
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: '/api/menu/list',
+                        data: {
+                            'currentPage': currentPage,
+                            'pageSize': pageSize,
+                            'nodeName': that.nodeName
+                        },
+                        success: function (res) {
+                            that.dataList = res.menus;
+                            that.total=res.total;
+                            if (initPage) {
+                                layui.use(['laypage', 'layer'], function () {
+                                    var laypage = layui.laypage
+                                        , layer = layui.layer;
+                                    laypage.render({
+                                        elem: 'pager'
+                                        , count:  that.total
+                                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+                                        , jump: function (obj, first) {
+                                            that.pageSize = obj.limit;
+                                            if (!first) {
+                                                that.defaultList(obj.curr, obj.limit, false);
+                                            }
+                                        }
+                                    });
+                                });
+                            };
+                            layer.close(loading)
+                        }
+                    });
+                },
+                search: function () {
+                    this.defaultList(1, this.pageSize,true);
+                },
+                deleteById:function (id) {
+                    var loading = layer.load(3);
+                    var that=this;
+                    $.ajax({
+                        type: 'get',
+                        dataType: 'json',
+                        url: '/api/menu/delete/'+id,
+                        success: function (res) {
+                            if (res.code=='0') {
+                                that.defaultList(1, that.pageSize,true);
+                                //that.usePage();
+                                layer.close(loading);
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

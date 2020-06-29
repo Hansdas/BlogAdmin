@@ -30,11 +30,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="lbl">实体包名：</td>
-                            <td><input type="text" v-model="domainPackageName"  class="input"></td>
-                            <td class="lbl">mapper包名：</td>
-                            <td><input type="text" v-model="daoPackageName"   class="input"></td>
-                        </tr>
+                        <td class="lbl">实体包名：</td>
+                        <td><input type="text" v-model="domainPackageName"  class="input"></td>
+                        <td class="lbl">mapper包名：</td>
+                        <td><input type="text" v-model="daoPackageName"   class="input"></td>
+                    </tr>
                         <tr>
                             <td colspan="8" style="text-align: center">
                                 <button type="button" class="layui-btn layui-btn-sm" @click="search">查询</button>
@@ -49,6 +49,7 @@
                     <table class="layui-table text-center">
                         <thead>
                         <tr>
+                            <th>选择</th>
                             <th>属性名</th>
                             <th>列名</th>
                             <th>类型</th>
@@ -62,6 +63,7 @@
                         </thead>
                         <tbody>
                         <tr v-for="item in dataList">
+                            <td><input type="checkbox" v-model="item.selected" id="cbSelected"></td>
                             <td><input type="text" name="" v-model="item.propertyName" class="table-input"></td>
                             <td><input type="text" name="" v-model="item.fieldName" class="table-input"></td>
                             <td>
@@ -128,10 +130,6 @@
                                 }
                             });
                         },
-                        bindTable:function()
-                        {
-
-                        },
                         search:function(){
                             this.bindSelect();
                         },
@@ -155,18 +153,22 @@
                         create:function () {
                             var that=this;
                             var index = layer.load(2);
+                            var dataList=[];
+                            for (var i=0;i<that.dataList.length;i++){
+                                if (that.dataList[i].selected)
+                                    dataList.push(that.dataList[i])
+                            }
                             $.ajax({
                                 type:'post',
                                 dataType:'json',
                                 url:'/api/generator/create',
                                 data:{
-                                    'tableColumns':JSON.stringify(that.dataList),
+                                    'tableColumns':JSON.stringify(dataList),
                                     'tableName':that.tableName,
                                     'domainPackageName':that.domainPackageName,
                                     'daoPackageName':that.daoPackageName,
                                 },
                                 success:function (res) {
-                                    that.tableNames=res.data;
                                     layer.close(index);
                                 },
                                 error:function (res) {

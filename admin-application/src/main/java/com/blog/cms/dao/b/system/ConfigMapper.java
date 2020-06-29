@@ -1,4 +1,4 @@
-package com.blog.cms.dao.system;
+package com.blog.cms.dao.b.system;
 
 import com.blog.cms.domain.system.config.Config;
 
@@ -14,6 +14,8 @@ public interface ConfigMapper {
     int selectCount(Map<String, Object> condition);
 
     Config selectById(int id);
+
+    String selectByKey(String key);
 
     List<Config> selectByPage(int currentPage, int pageSize);
 

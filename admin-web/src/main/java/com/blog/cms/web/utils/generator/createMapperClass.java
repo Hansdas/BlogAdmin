@@ -46,10 +46,13 @@ public class createMapperClass {
         try {
             Template t = configuration.getTemplate("daoTemp.ftl"); //文件名
             t.process(map, out, ObjectWrapper.BEANS_WRAPPER);
+            out.close();
         } catch (TemplateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

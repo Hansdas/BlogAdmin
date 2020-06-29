@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.blog.cms.dao.system.MenuMapper">
+<mapper namespace="com.blog.cms.dao.c.system.MenuMapper">
     <resultMap id="MenuResultMap" type="com.blog.cms.domain.system.menu.Menu">
         <id column='menu_id' property='id'/>
         <result column='menu_order' property='order'/>

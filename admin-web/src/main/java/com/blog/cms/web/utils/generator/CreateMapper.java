@@ -57,6 +57,7 @@ public class CreateMapper {
         try {
             Template t = configuration.getTemplate("xmlTemp.ftl"); //文件名
             t.process(map, out, ObjectWrapper.BEANS_WRAPPER);
+            out.close();
         } catch (TemplateException e) {
             e.printStackTrace();
         } catch (IOException e) {

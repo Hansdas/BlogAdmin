@@ -4,7 +4,7 @@ import com.blog.cms.common.JsonResult;
 import com.blog.cms.common.enums.EnumUtils;
 import com.blog.cms.common.enums.SqlDataType;
 import com.blog.cms.common.exception.ServiceException;
-import com.blog.cms.dao.system.generator.ITableColumnDao;
+import com.blog.cms.dao.b.system.generator.ITableColumnDao;
 import com.blog.cms.domain.system.generator.TableColumn;
 import com.blog.cms.web.utils.generator.CreateBean;
 import com.blog.cms.web.utils.generator.CreateMapper;

@@ -1,4 +1,4 @@
-package com.blog.cms.dao.system.generator;
+package com.blog.cms.dao.b.system.generator;
 
 import com.blog.cms.common.exception.ServiceException;
 import com.blog.cms.domain.system.generator.TableColumn;

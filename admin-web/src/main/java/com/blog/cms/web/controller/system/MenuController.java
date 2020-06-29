@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.blog.cms.common.JsonResult;
 import com.blog.cms.common.ListUtils;
 import com.blog.cms.common.exception.ServiceException;
-import com.blog.cms.dao.system.MenuMapper;
+import com.blog.cms.dao.c.system.MenuMapper;
 import com.blog.cms.domain.system.menu.Menu;
 import com.blog.cms.domain.system.menu.MenuDto;
 import com.blog.cms.service.system.imp.MenuService;

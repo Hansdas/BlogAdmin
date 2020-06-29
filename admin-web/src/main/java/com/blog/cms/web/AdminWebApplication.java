@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = {"com.blog.cms", "com.blog.cms.web"})
 @EnableScheduling
 @ServletComponentScan
-@MapperScan(basePackages = "com.blog.cms.dao")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class AdminWebApplication {
     public static void main(String[] args) {

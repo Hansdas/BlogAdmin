@@ -1,15 +1,13 @@
 package com.blog.cms.service.system.imp;
 
 import com.alibaba.fastjson.JSON;
-import com.blog.cms.common.constant.ConfigKey;
-import com.blog.cms.dao.system.ConfigMapper;
+import com.blog.cms.dao.b.system.ConfigMapper;
 import com.blog.cms.domain.system.config.Config;
 import com.blog.cms.service.system.IConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 @Service
 public class ConfigService implements IConfigService {
@@ -35,5 +33,12 @@ public class ConfigService implements IConfigService {
             configMapper.update(config);
         else
             configMapper.insert(config);
+    }
+
+    @Override
+    public <T> T SelectByKey(String key,Class<T> t) {
+        String value=configMapper.selectByKey(key);
+        T object =JSON.parseObject(value,t);
+        return object;
     }
 }

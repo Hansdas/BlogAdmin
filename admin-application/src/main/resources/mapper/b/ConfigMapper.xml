@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.blog.cms.dao.system.ConfigMapper" >
+<mapper namespace="com.blog.cms.dao.b.system.ConfigMapper" >
 
     <resultMap id="ConfigResultMap" type="com.blog.cms.domain.system.config.Config" >
         <id column='config_id'  property='id'/>
@@ -42,6 +42,9 @@
     </select>
     <select id="selectById" parameterType="int" resultMap="ConfigResultMap">
          select <include refid='Base_Column_List'/> from SYS_Config where config_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByKey" parameterType="string" resultType="string">
+        select config_value from SYS_Config where config_key= #{key,jdbcType=VARCHAR}
     </select>
     <select id="selectByPage" parameterType="map" resultMap="ConfigResultMap">
          select <include refid='Base_Column_List'/> from SYS_Config limit #{currentPage},#{pageSize}

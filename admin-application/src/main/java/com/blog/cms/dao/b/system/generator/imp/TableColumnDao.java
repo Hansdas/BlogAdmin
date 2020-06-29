@@ -1,10 +1,11 @@
-package com.blog.cms.dao.system.generator.imp;
+package com.blog.cms.dao.b.system.generator.imp;
 
-import com.blog.cms.dao.system.generator.ITableColumnDao;
+import com.blog.cms.dao.b.system.generator.ITableColumnDao;
 import com.blog.cms.domain.system.generator.TableColumn;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ import java.util.List;
 @Repository
 public class TableColumnDao implements ITableColumnDao {
     @Autowired
+    @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
 
     @Override

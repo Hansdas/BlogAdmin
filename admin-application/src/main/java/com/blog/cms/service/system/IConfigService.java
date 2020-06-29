@@ -16,4 +16,12 @@ public interface IConfigService {
      * @param value
      */
      void  Save(String key, String value);
+
+    /**
+     * 根据key查找配置
+     * @param key
+     * @param <T>
+     * @return
+     */
+     <T> T SelectByKey(String key,Class<T> t);
 }

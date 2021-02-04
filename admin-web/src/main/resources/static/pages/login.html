@@ -11,15 +11,35 @@
         <link href="../layui/css/layui.css" rel="stylesheet">
         <link href="../css/home.css" rel="stylesheet">
         <link href="../css/login.css" rel="stylesheet">
+        <style>
+            .code
+            {
+                font-family: Arial;
+                font-style: italic;
+                color: blue;
+                font-size: 27px;
+                border: 0;
+                padding: 2px 3px;
+                letter-spacing: 3px;
+                font-weight: bolder;
+                float: left;
+                cursor: pointer;
+                width: 125px;
+                height: 33px;
+                line-height: 40px;
+                text-align: center;
+                vertical-align: middle;
+                background-color: #f2f2f2;
+            }
+        </style>
     </head>
     <body>
 
-        <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+        <div  class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
 
             <div class="layadmin-user-login-main">
                 <div class="layadmin-user-login-box layadmin-user-login-header">
-                    <h2>BlogAdmin</h2>
-                    <p>博客后台管理系统</p>
+                    <h2>B博客后台管理系统</h2>
                 </div>
                 <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
                     <div class="layui-form-item">
@@ -34,11 +54,11 @@
                         <div class="layui-row">
                             <div class="layui-col-xs7">
                                 <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-                                <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
+                                <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input">
                             </div>
                             <div class="layui-col-xs5">
                                 <div style="margin-left: 10px;">
-                                    <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+                                    <div class="code" @click="refreshCode()">{{captchCode}}</div>
                                 </div>
                             </div>
                         </div>
@@ -73,58 +93,9 @@
 
         </div>
 
-        <script src="../../layuiadmin/layui/layui.js"></script>
-        <script>
-            layui.config({
-                base: '../../layuiadmin/' //静态资源所在路径
-            }).extend({
-                index: 'lib/index' //主入口模块
-            }).use(['index', 'user'], function(){
-                var $ = layui.$
-                    ,setter = layui.setter
-                    ,admin = layui.admin
-                    ,form = layui.form
-                    ,router = layui.router()
-                    ,search = router.search;
-
-                form.render();
-
-                //提交
-                form.on('submit(LAY-user-login-submit)', function(obj){
-
-                    //请求登入接口
-                    admin.req({
-                        url: layui.setter.base + 'json/user/login.js' //实际使用请改成服务端真实接口
-                        ,data: obj.field
-                        ,done: function(res){
-
-                            //请求成功后，写入 access_token
-                            layui.data(setter.tableName, {
-                                key: setter.request.tokenName
-                                ,value: res.data.access_token
-                            });
-
-                            //登入成功的提示与跳转
-                            layer.msg('登入成功', {
-                                offset: '15px'
-                                ,icon: 1
-                                ,time: 1000
-                            }, function(){
-                                location.href = '../'; //后台主页
-                            });
-                        }
-                    });
-
-                });
-
-
-                //实际使用时记得删除该代码
-                layer.msg('为了方便演示，用户名密码可随意输入', {
-                    offset: '15px'
-                    ,icon: 1
-                });
-
-            });
-        </script>
+        <script src="../js/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+        <script src="../../layui/layui.js" type="text/javascript"></script>
+        <script src="../js/vue/vue.js" type="text/javascript"></script>
+        <script src="../js/login.js?v=202002171213" type="text/javascript"></script>
     </body>
 </html>

@@ -35,4 +35,7 @@ public class JsonResult {
         this.message=message;
         this.data=data;
     }
+    public static JsonResult success(Object data){
+        return new JsonResult("0",data);
+    }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.b.bm.ConfigMapper" >
+
+    <resultMap id="ConfigResultMap" type="com.blog.cms.domain.system.Config" >
+        <id column='config_id'  property='id'/>
+ 		<result  column='config_key'  property='key'/>
+ 		<result  column='config_value'  property='value'/>
+ 		<result  column='config_createtime'  property='createtime'/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        config_id,config_key,config_value,config_createtime
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+            <if test="key !=null">
+                and config_key= #{key}
+            </if>
+        </where>
+    </sql>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.system.Config">
+        insert into SYS_Config(
+		config_key,
+		config_value,
+		config_createtime )
+		values
+ 		(
+		#{key,jdbcType=VARCHAR},
+		#{value,jdbcType=VARCHAR},
+		now())
+    </insert>
+    <select id="update" parameterType="com.blog.cms.domain.system.Config">
+        update  SYS_Config set
+			config_value = #{value,jdbcType=VARCHAR}
+			where config_key = #{key,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCount" parameterType="map" resultType="int">
+        select count(*) from SYS_Config
+        <include refid='Where'/>
+    </select>
+    <select id="selectById" parameterType="int" resultMap="ConfigResultMap">
+         select <include refid='Base_Column_List'/> from SYS_Config where config_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByKey" parameterType="string" resultType="string">
+        select config_value from SYS_Config where config_key= #{key,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByPage" parameterType="map" resultMap="ConfigResultMap">
+         select <include refid='Base_Column_List'/> from SYS_Config limit #{currentPage},#{pageSize}
+    </select>
+    <delete id="deleteById" parameterType="map">
+         delete * from SYS_Config where config_id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

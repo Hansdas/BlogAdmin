@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>留言列表</title>
+    <link href="../../../layui/css/layui.css" rel="stylesheet">
+    <link href="../../../css/common.css" rel="stylesheet">
+    <link href="../../../css/main.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-header">
+    留言列表
+</div>
+<div class="container" id="app">
+    <div class="search">
+        <div class="layui-form-item">
+        </div>
+    </div>
+    <div style="overflow-y: auto">
+        <table class="layui-table" lay-size="sm">
+            <thead>
+            <tr>
+                <th>是否已处理</th>
+                <th>联系邮箱</th>
+                <th>留言内容</th>
+                <th>留言时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td v-if="dataList==null" colspan="11">数据加载中...</td>
+                <td v-else-if="dataList && dataList.length == 0" colspan="11">暂无数据</td>
+            </tr>
+            <tr v-for="(item, index) in dataList">
+                <td v-if="item.isAction!=true">否</td>
+                <td v-else>是</td>
+                <td>{{item.contractEmail}}</td>
+                <td>{{item.content}}</td>
+                <td>{{item.createTime}}</td>
+                <td>
+                    <a class="layui-btn layui-btn-xs">处理</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" @click="deleteById(item.id)">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pager"></div>
+</div>
+<script src="/js/require.js-2.3.6/require.min.js" type="text/javascript"></script>
+<script src="/layui/layui.js" type="text/javascript"></script>
+<script src="../../../js/common/require-config.js" type="text/javascript"></script>
+<script>
+    require(['jquery', 'vue'], function ($, Vue) {
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                dataList: null,
+                totalCount: '',
+                nodeName: '',
+                pageSize: ''
+            },
+            mounted: function () {
+                var that=this;
+                layui.use(['layer'], function(){
+                    var layer = layui.layer
+                    //var loading = layer.load(3);
+                    that.defaultList(1, 10,true);
+                    //that.usePage();
+                });
+                //vueDom.totalCount=total;
+            },
+            methods: {
+                defaultList: function (currentPage, pageSize,initPage) {
+                    var that = this;
+                    var loading = layer.load(3);
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: '/api/leavemessage/list',
+                        data: {
+                            'currentPage': currentPage,
+                            'pageSize': pageSize,
+                        },
+                        success: function (res) {
+                            that.dataList = res.data;
+                            that.total=res.total;
+                            if (initPage) {
+                                layui.use(['laypage', 'layer'], function () {
+                                    var laypage = layui.laypage
+                                        , layer = layui.layer;
+                                    laypage.render({
+                                        elem: 'pager'
+                                        , count:  that.total
+                                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+                                        , jump: function (obj, first) {
+                                            that.pageSize = obj.limit;
+                                            if (!first) {
+                                                that.defaultList(obj.curr, obj.limit, false);
+                                            }
+                                        }
+                                    });
+                                });
+                            };
+                            layer.close(loading)
+                        }
+                    });
+                },
+                search: function () {
+                    this.defaultList(1, this.pageSize,true);
+                },
+                deleteById:function (id) {
+                    var loading = layer.load(3);
+                    var that=this;
+                    $.ajax({
+                        type: 'get',
+                        dataType: 'json',
+                        url: '/api/menu/delete/'+id,
+                        success: function (res) {
+                            if (res.code=='0') {
+                                that.defaultList(1, that.pageSize,true);
+                                //that.usePage();
+                                layer.close(loading);
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

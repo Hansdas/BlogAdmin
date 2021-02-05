@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.b.system.UserMapper" >
+
+    <resultMap id="UserResultMap" type="com.blog.cms.domain.system.User" >
+         <id column='user_id'  property='id'/>
+ 		<result  column='user_username'  property='userName'/>
+ 		<result  column='user_account'  property='account'/>
+ 		<result  column='user_password'  property='password'/>
+ 		<result  column='user_sex'  property='sex' typeHandler="com.blog.cms.common.enums.EnumTypeHandler"/>
+ 		<result  column='user_phone'  property='phone'/>
+ 		<result  column='user_email'  property='email'/>
+ 		<result  column='user_birthdate'  property='birthdate'/>
+ 		<result  column='user_sign'  property='sign'/>
+ 		<result  column='user_headphoto'  property='headPhoto'/>
+ 		<result  column='user_isvalid'  property='isValid'/>
+ 		<result  column='user_createtime'  property='createTime'/>
+ 		<result  column='user_updatetime'  property='updateTime'/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,user_username,user_account,user_password,user_sex,user_phone,user_email,user_birthdate,user_sign,user_headphoto,user_isvalid,user_createtime,user_updatetime
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+        </where>
+    </sql>
+    <sql id="OrderBy">
+        order by user_id desc
+    </sql>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.system.User">
+        insert into T_User( user_id,user_username,user_account,user_password,user_sex,user_phone,user_email,user_birthdate,user_sign,user_headphoto,user_isvalid,user_createtime,user_updatetime )	values
+ 		( #{id,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{account,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{sex,jdbcType=INTEGER},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{birthdate,jdbcType=VARCHAR},#{sign,jdbcType=VARCHAR},#{headPhoto,jdbcType=VARCHAR},#{isValid,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR} )
+    </insert>
+    <update id="update" parameterType="com.blog.cms.domain.system.User">
+        update  T_User setuser_id=#{id,jdbcType=INTEGER},user_username=#{userName,jdbcType=VARCHAR},user_account=#{account,jdbcType=VARCHAR},user_password=#{password,jdbcType=VARCHAR},user_sex=#{sex,jdbcType=INTEGER},user_phone=#{phone,jdbcType=VARCHAR},user_email=#{email,jdbcType=VARCHAR},user_birthdate=#{birthdate,jdbcType=VARCHAR},user_sign=#{sign,jdbcType=VARCHAR},user_headphoto=#{headPhoto,jdbcType=VARCHAR},user_isvalid=#{isValid,jdbcType=VARCHAR},user_createtime=#{createTime,jdbcType=VARCHAR},user_updatetime=#{updateTime,jdbcType=VARCHAR} 
+			where user_id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectById" parameterType="int" resultMap="UserResultMap">
+         select <include refid='Base_Column_List'/> from T_User where user_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="select" parameterType="map" resultMap="UserResultMap">
+         select <include refid='Base_Column_List'/> from T_User
+			<include refid='Where'/> 
+			<include refid='OrderBy'/> 
+    </select>
+    <select id="selectByPage" parameterType="map" resultMap="UserResultMap">
+         select <include refid='Base_Column_List'/> from T_User
+			<include refid='Where'/> 
+			<include refid='OrderBy'/>  limit #{currentPage},#{pageSize}
+    </select>
+    <select id="selectCount" parameterType="map" resultType="int">
+         select count(*) from T_User
+			<include refid='Where'/> 
+    </select>
+    <delete id="deleteById" parameterType="int">
+         delete * from T_User where user_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="delete" parameterType="int">
+         delete * from T_User
+			<include refid='Where'/> 
+    </delete>
+</mapper>

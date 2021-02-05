@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.b.bm.ArticleMapper" >
+
+    <resultMap id="ArticleResultMap" type="com.blog.cms.domain.bm.Article" >
+        <id column='article_id'  property='id'/>
+ 		<result  column='article_author'  property='author'/>
+ 		<result  column='article_title'  property='title'/>
+ 		<result  column='article_textsection'  property='testSection'/>
+ 		<result  column='article_content'  property='content'/>
+ 		<result  column='article_articletype'  property='articleType' typeHandler="com.blog.cms.common.enums.EnumTypeHandler"/>
+ 		<result  column='article_praisecount'  property='praiseCount'/>
+ 		<result  column='article_browsercount'  property='browserCount'/>
+ 		<result  column='article_isdraft'  property='isDraft'/>
+ 		<result  column='article_sendemail'  property='isSendEmail'/>
+ 		<result  column='article_createtime'  property='createTime'/>
+ 		<result  column='article_updatetime'  property='updateTime'/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        article_id,article_author,article_title,article_textsection,article_content,article_articletype,article_praisecount,article_browsercount,article_isdraft,article_sendemail,article_createtime,article_updatetime
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+            <if test="fullText !=null">
+                and MATCH(article_title,article_content) AGAINST(#{fullText} IN BOOLEAN MODE)
+            </if>
+        </where>
+    </sql>
+    <sql id="OrderBy">
+        order by article_id desc
+    </sql>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.bm.Article">
+        insert into T_Article( article_id,article_author,article_title,article_textsection,article_content,article_articletype,article_praisecount,article_browsercount,article_isdraft,article_sendemail,article_createtime,article_updatetime )	values
+ 		( #{id,jdbcType=INTEGER},#{author,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{testSection,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{articleType,jdbcType=INTEGER},#{praiseCount,jdbcType=INTEGER},#{browserCount,jdbcType=INTEGER},#{isDraft,jdbcType=VARCHAR},#{isSendEmail,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR} )
+    </insert>
+    <update id="update" parameterType="com.blog.cms.domain.bm.Article">
+        update  T_Article setarticle_id=#{id,jdbcType=INTEGER},article_author=#{author,jdbcType=VARCHAR},article_title=#{title,jdbcType=VARCHAR},article_textsection=#{testSection,jdbcType=VARCHAR},article_content=#{content,jdbcType=VARCHAR},article_articletype=#{articleType,jdbcType=INTEGER},article_praisecount=#{praiseCount,jdbcType=INTEGER},article_browsercount=#{browserCount,jdbcType=INTEGER},article_isdraft=#{isDraft,jdbcType=VARCHAR},article_sendemail=#{isSendEmail,jdbcType=VARCHAR},article_createtime=#{createTime,jdbcType=VARCHAR},article_updatetime=#{updateTime,jdbcType=VARCHAR}
+			where article_id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectById" parameterType="int" resultMap="ArticleResultMap">
+         select <include refid='Base_Column_List'/> from T_Article where article_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="select" parameterType="map" resultMap="ArticleResultMap">
+         select <include refid='Base_Column_List'/> from T_Article
+			<include refid='Where'/> 
+			<include refid='OrderBy'/> 
+    </select>
+    <select id="selectColumnsPage" parameterType="map" resultMap="ArticleResultMap">
+        select  article_id,user_username as article_author,article_title,article_articletype,article_praisecount,article_browsercount,article_isdraft,article_createtime
+        from T_Article left join T_User on article_author=user_account
+        <include refid='Where'/>
+        <include refid='OrderBy'/>  limit #{currentPage},#{pageSize}
+    </select>
+    <select id="selectByPage" parameterType="map" resultMap="ArticleResultMap">
+         select <include refid='Base_Column_List'/> from T_Article
+			<include refid='Where'/> 
+			<include refid='OrderBy'/>  limit #{currentPage},#{pageSize}
+    </select>
+    <select id="selectCount" parameterType="map" resultType="int">
+         select count(*) from T_Article
+			<include refid='Where'/> 
+    </select>
+    <delete id="deleteById" parameterType="int">
+         delete * from T_Article where article_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="delete" parameterType="int">
+         delete * from T_Article
+			<include refid='Where'/> 
+    </delete>
+</mapper>

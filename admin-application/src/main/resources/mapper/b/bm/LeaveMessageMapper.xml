@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.cms.dao.b.bm.LeaveMessageMapper" >
+
+    <resultMap id="LeaveMessageResultMap" type="com.blog.cms.domain.bm.LeaveMessage" >
+        <id column='lm_id'  property='id'/>
+ 		<result  column='lm_content'  property='content'/>
+ 		<result  column='lm_contract_email'  property='contractEmail'/>
+ 		<result  column='lm_is_action'  property='isAction'/>
+ 		<result  column='lm_createtime'  property='createTime'/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        lm_id,lm_content,lm_contract_email,lm_is_action,lm_createtime
+    </sql>
+    <sql id="Where">
+        <where> 1=1
+        </where>
+    </sql>
+    <sql id="OrderBy">
+        order by lm_id desc
+    </sql>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.blog.cms.domain.bm.LeaveMessage">
+        insert into T_LeaveMessage( lm_id,lm_content,lm_contract_email,lm_is_action,lm_createtime )	values
+ 		( #{id,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{contractEmail,jdbcType=VARCHAR},#{isAction,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR} )
+    </insert>
+    <update id="update" parameterType="com.blog.cms.domain.bm.LeaveMessage">
+        update  T_LeaveMessage setlm_id=#{id,jdbcType=INTEGER},lm_content=#{content,jdbcType=VARCHAR},lm_contract_email=#{contractEmail,jdbcType=VARCHAR},lm_is_action=#{isAction,jdbcType=VARCHAR},lm_createtime=#{createTime,jdbcType=VARCHAR}
+			where lm_id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectCount" parameterType="map" resultType="int">
+        select count(*) from T_LeaveMessage
+        <include refid='Where'/>
+    </select>
+    <select id="selectById" parameterType="int" resultMap="LeaveMessageResultMap">
+         select <include refid='Base_Column_List'/> from T_LeaveMessage where lm_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPage" parameterType="map" resultMap="LeaveMessageResultMap">
+         select <include refid='Base_Column_List'/> from T_LeaveMessage
+        <include refid='Where'/>
+        <include refid='OrderBy'/>
+          limit #{currentPage},#{pageSize}
+    </select>
+    <delete id="deleteById" parameterType="map">
+         delete * from T_LeaveMessage where lm_id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

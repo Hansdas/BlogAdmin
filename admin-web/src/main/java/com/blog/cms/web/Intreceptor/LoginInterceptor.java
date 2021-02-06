@@ -10,12 +10,10 @@ import javax.servlet.http.HttpSession;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("接收到请求");
         HttpSession httpSession=request.getSession();
         Object sessionValue= httpSession.getAttribute(SessionKey.AUTH_USER);
         if (sessionValue!=null)
             return true;
-        return true;
-        //throw  new LoginException("未登录");
+        throw new LoginException();
     }
 }

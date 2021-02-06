@@ -13,6 +13,9 @@
         <where> 1=1
         </where>
     </sql>
+    <sql id="OrderBy">
+        order by ${orderbyCloumn} desc
+    </sql>
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="${domainPackage}.${className}">
         ${insert}
     </insert>
@@ -22,10 +25,19 @@
     <select id="selectById" parameterType="int" resultMap="${className}ResultMap">
         ${selectById}
     </select>
+    <select id="select" parameterType="map" resultMap="${className}ResultMap">
+        ${select}
+    </select>
     <select id="selectByPage" parameterType="map" resultMap="${className}ResultMap">
         ${selectByPage}
     </select>
-    <delete id="deleteById" parameterType="map">
+    <select id="selectCount" parameterType="map" resultType="int">
+        ${selectCount}
+    </select>
+    <delete id="deleteById" parameterType="int">
         ${deleteById}
+    </delete>
+    <delete id="delete" parameterType="int">
+        ${delete}
     </delete>
 </mapper>

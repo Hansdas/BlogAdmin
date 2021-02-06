@@ -2,11 +2,10 @@ package com.blog.cms.web.controller.system;
 
 import com.alibaba.fastjson.JSON;
 import com.blog.cms.common.JsonResult;
-import com.blog.cms.common.ListUtils;
 import com.blog.cms.common.exception.ServiceException;
 import com.blog.cms.dao.c.system.MenuMapper;
-import com.blog.cms.domain.system.menu.Menu;
-import com.blog.cms.domain.system.menu.MenuDto;
+import com.blog.cms.domain.system.Menu;
+import com.blog.cms.domain.system.MenuDto;
 import com.blog.cms.service.system.imp.MenuService;
 import com.blog.cms.web.utils.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

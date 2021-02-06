@@ -1,7 +1,10 @@
 package com.blog.cms.domain.system.generator;
 
 public class TableColumn {
-
+    /**
+     * 是否选中
+     */
+    private  boolean isSelected;
     private String propertyName;
     /**
      * 字段名
@@ -31,6 +34,14 @@ public class TableColumn {
      * 是否可空
      */
     private  boolean isNull;
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelectd(boolean selected) {
+        isSelected = selected;
+    }
+
     public String getPropertyName() {
         return propertyName;
     }
@@ -38,6 +49,7 @@ public class TableColumn {
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
+
     public String getFieldName() {
         return fieldName;
     }

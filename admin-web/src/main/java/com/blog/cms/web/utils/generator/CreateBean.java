@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateBean {
-    public static void create(String tableName, String packageName, String basePath, List<TableColumn> tableColumns) {
-        String className = tableName.split("_")[1];
+    public static void create(String className, String packageName, String basePath, List<TableColumn> tableColumns) {
         StringBuilder stringBuilder = new StringBuilder();
         List<String> fieldTypes = tableColumns.stream().map(TableColumn::getFieldType).distinct().collect(Collectors.toList());
         if (fieldTypes.contains("datetime")) {

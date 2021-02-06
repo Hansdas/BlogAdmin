@@ -12,7 +12,8 @@ public enum SqlDataType implements EnumBase {
     BIT("bit","bit"),
     TEXT("text","text"),
     DATETIME("datetime","datetime"),
-    CHAR("char","char");
+    CHAR("char","char"),
+    LONGTEXT("longtext","longtext");
     private String text;
     private String value;
     SqlDataType(String text,String value)

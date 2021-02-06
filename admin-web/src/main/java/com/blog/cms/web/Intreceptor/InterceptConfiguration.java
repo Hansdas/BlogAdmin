@@ -12,5 +12,7 @@ public class InterceptConfiguration implements WebMvcConfigurer {
         LoginInterceptor loginInterceptor=new LoginInterceptor();
         InterceptorRegistration loginRegistry=registry.addInterceptor(loginInterceptor);
         loginRegistry.addPathPatterns("/api/**");
+        loginRegistry.excludePathPatterns("/api/login");
+        loginRegistry.excludePathPatterns("/api/config/captch");
     }
 }

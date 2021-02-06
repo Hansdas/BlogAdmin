@@ -38,7 +38,7 @@ public class DataSourceCMS {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("cmsDataSoruce")DataSource dataSource) throws  Exception{
         SqlSessionFactoryBean bean=new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/c/**/*Mapper.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/c/**/*Mapper.xml"));
         return  bean.getObject();
     }
 

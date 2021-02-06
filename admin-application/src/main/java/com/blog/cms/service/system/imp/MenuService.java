@@ -3,19 +3,16 @@ package com.blog.cms.service.system.imp;
 import com.blog.cms.common.ListUtils;
 import com.blog.cms.common.exception.ServiceException;
 import com.blog.cms.dao.c.system.MenuMapper;
-import com.blog.cms.domain.system.menu.Menu;
-import com.blog.cms.domain.system.menu.MenuDto;
+import com.blog.cms.domain.system.Menu;
+import com.blog.cms.domain.system.MenuDto;
 import com.blog.cms.service.system.IMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.DocFlavor;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +21,7 @@ public class MenuService implements IMenuService {
     MenuMapper menuMapper;
 
     @Override
-    @Transactional
+    @Transactional(transactionManager = "blogTransactionManager")
     public void Save(List<Menu> menus, String parentNumber, List<String> deleteNumbers) throws ServiceException {
         String rootNumber = "";
         try {
@@ -256,7 +253,8 @@ public class MenuService implements IMenuService {
             } else if (menuDto.isLeafNode()){
                 paddingLeft+=30;
                 builder.append("<dd>");
-                builder.append(String.format("<a href=\"javascript:;\" style=\"padding-left: %spx\" onclick=\"menuOpen('..%s')\">%s</a>",paddingLeft,menuDto.getHref(),menuDto.getTitle()));
+                String href=menuDto.getHref().startsWith("http")?menuDto.getHref():String.format("..%s",menuDto.getHref());
+                builder.append(String.format("<a href=\"javascript:;\" style=\"padding-left: %spx\" onclick=\"menuOpen('%s')\">%s</a>",paddingLeft,href,menuDto.getTitle()));
 
             }
             paddingLeft+=30;

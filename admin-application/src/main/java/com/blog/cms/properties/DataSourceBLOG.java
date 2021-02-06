@@ -36,7 +36,7 @@ public class DataSourceBLOG {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("blogDataSoruce")DataSource dataSource) throws  Exception{
         SqlSessionFactoryBean bean=new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/b/**/*Mapper.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/b/**/*.xml"));
         return  bean.getObject();
     }
 

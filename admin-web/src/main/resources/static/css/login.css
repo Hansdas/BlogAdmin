@@ -42,6 +42,25 @@ html,body,#LAY_app{height:100%;}
     .layadmin-user-login-main{width: 300px;}
     .layadmin-user-login-box{padding: 10px;}
 }
+.code
+{
+    font-family: Arial;
+    font-style: italic;
+    color: blue;
+    font-size: 27px;
+    border: 0;
+    padding: 2px 3px;
+    letter-spacing: 3px;
+    font-weight: bolder;
+    float: left;
+    cursor: pointer;
+    width: 125px;
+    height: 33px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #f2f2f2;
+}
 
 
 

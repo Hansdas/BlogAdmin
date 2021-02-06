@@ -1,8 +1,8 @@
 package com.blog.cms.service.system;
 
 import com.blog.cms.common.exception.ServiceException;
-import com.blog.cms.domain.system.menu.Menu;
-import com.blog.cms.domain.system.menu.MenuDto;
+import com.blog.cms.domain.system.Menu;
+import com.blog.cms.domain.system.MenuDto;
 
 import java.util.List;
 

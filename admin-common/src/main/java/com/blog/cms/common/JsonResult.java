@@ -35,7 +35,10 @@ public class JsonResult {
         this.message=message;
         this.data=data;
     }
-    public static JsonResult success(Object data){
-        return new JsonResult("0",data);
+    public static JsonResult Success(Object data){
+        return  new JsonResult("0",data);
+    }
+    public  static  JsonResult Error(String msg){
+        return  new JsonResult("1",msg);
     }
 }

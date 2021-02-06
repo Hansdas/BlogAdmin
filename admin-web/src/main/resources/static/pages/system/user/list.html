@@ -14,42 +14,18 @@
         <div class="container" id="app">
             <div class="search">
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                    <label class="layui-form-label">账号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" v-model="user.Account"
-                               class="layui-input">
-                    </div>
-                        <label class="layui-form-label">昵称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" v-model="user.Name"
-                                   class="layui-input">
-                        </div>
-                </div>
-                    <div class="layui-inline">
-                        <div class="layui-input-inline">
-                            <button type="button" @click="search" class="layui-btn layui-btn-primary" title="查询">
-                                <i class="layui-icon layui-icon-search"></i>
-                            </button>
-                            <button type="button" class="layui-btn layui-btn-primary" title="导出">
-                                <i class="layui-icon layui-icon-export"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div style="overflow-y: auto">
                 <table class="layui-table" lay-size="sm">
                     <thead>
                     <tr>
-                        <th>菜单编号</th>
-                        <th>菜单名称</th>
-                        <th>菜单地址</th>
-                        <th>根节点</th>
-                        <th>是否根节点</th>
-                        <th>是否叶子节点</th>
-                        <th>上级菜单</th>
-                        <th>上级菜单编号</th>
+                        <th>账号</th>
+                        <th>名称</th>
+                        <th>性别</th>
+                        <th>手机号</th>
+                        <th>邮箱</th>
+                        <th>是否失效</th>
                         <th>创建时间</th>
                         <th>操作</th>
                     </tr>
@@ -60,21 +36,19 @@
                         <td v-else-if="dataList && dataList.length == 0" colspan="11">暂无数据</td>
                     </tr>
                     <tr v-for="(item, index) in dataList">
-                        <td>{{item.number}}</td>
-                        <td>{{item.nodeName}}</td>
-                        <td>{{item.nodePath}}</td>
-                        <td>{{item.rootNode}}</td>
-                        <td v-if="item.isRootNode!=true">否</td>
+                        <td>{{item.account}}</td>
+                        <td>{{item.userName}}</td>
+                        <td v-if="item.sex=='MAN'">男</td>
+                        <td v-else>女</td>
+                        <td >{{item.phone}}</td>
+                        <td >{{item.email}}</td>
+                        <td v-if="item.isValid==false">否</td>
                         <td v-else>是</td>
-                        <td v-if="item.isLeafNode!=true">否</td>
-                        <td v-else>是</td>
-                        <td>{{item.parentNode}}</td>
-                        <td>{{item.parentNodeNumber}}</td>
-                        <td>{{item.createTime}}</td>
+                        <td >{{item.createTime}}</td>
                         <td>
-                            <a class="layui-btn layui-btn-primary layui-btn-xs">查看</a>
-                            <a class="layui-btn layui-btn-xs">编辑</a>
+                            <a class="layui-btn layui-btn-xs">禁用</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" @click="deleteById(item.id)">删除</a>
+                            <a  :href="'detail.html?id='+item.id" target="_blank" class="layui-btn layui-btn-primary layui-btn-xs" >详情</a>
                         </td>
                     </tr>
                     </tbody>
@@ -92,7 +66,6 @@
                     data: {
                         dataList: null,
                         totalCount: '',
-                        nodeName: '',
                         pageSize: ''
                     },
                     mounted: function () {
@@ -100,7 +73,7 @@
                         layui.use(['layer'], function(){
                             var layer = layui.layer
                             //var loading = layer.load(3);
-                            //that.defaultList(1, 10,true);
+                            that.defaultList(1, 10,true);
                             //that.usePage();
                         });
                         //vueDom.totalCount=total;
@@ -112,15 +85,14 @@
                             $.ajax({
                                 type: 'post',
                                 dataType: 'json',
-                                url: '/api/menu/list',
+                                url: '/api/user/list/page',
                                 data: {
                                     'currentPage': currentPage,
                                     'pageSize': pageSize,
-                                    'nodeName': that.nodeName
                                 },
                                 success: function (res) {
-                                    that.dataList = res.menus;
-                                    that.total=res.total;
+                                    that.dataList = res.data.list;
+                                    that.total=res.data.total;
                                     if (initPage) {
                                         layui.use(['laypage', 'layer'], function () {
                                             var laypage = layui.laypage
@@ -160,7 +132,7 @@
                                     }
                                 }
                             });
-                        }
+                        },
 
                     }
                 });

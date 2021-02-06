@@ -38,10 +38,11 @@ public class TableColumnDao implements ITableColumnDao {
                 "from information_schema.columns where table_name = ?";
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql,tableName);
         List<TableColumn> tableColumns=new ArrayList<>();
-        String[] fieldTypes={"datetime"};
+        String[] fieldTypes={"datetime","longtext","text"};
         while (rowSet.next())
         {
             TableColumn tableColumn=new TableColumn();
+            tableColumn.setSelectd(true);
             tableColumn.setFieldName(rowSet.getString("column_name"));
             tableColumn.setFieldType(rowSet.getString("data_type"));
             String columnType=rowSet.getString("column_type");

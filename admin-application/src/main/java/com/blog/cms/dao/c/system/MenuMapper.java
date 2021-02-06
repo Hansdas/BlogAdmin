@@ -1,6 +1,6 @@
 package com.blog.cms.dao.c.system;
 
-import com.blog.cms.domain.system.menu.Menu;
+import com.blog.cms.domain.system.Menu;
 
 import java.util.List;
 import java.util.Map;

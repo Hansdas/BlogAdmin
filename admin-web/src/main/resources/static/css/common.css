@@ -1,6 +1,10 @@
 body{
     overflow-x:hidden;
 }
+a:hover{
+    color: #FF5722;
+    cursor: pointer;
+}
 .layui-table tr th{
     font-weight: 700;
     font-size: 14px !important;
@@ -39,11 +43,15 @@ body{
     padding-left: 10px;
     height: 22px;
 }
-.search{
-
-}
 .display-flex{
     display:flex;
+}
+.search .lable{
+    float: left;
+    display: block;
+    padding: 9px 15px;
+    line-height: 20px;
+    text-align: right;
 }
 /**
 表单
@@ -145,6 +153,7 @@ radio
 .container table thead tr th{
     white-space: nowrap;
 }
+
 .container .layui-table td{
     white-space: nowrap !important;
 }
